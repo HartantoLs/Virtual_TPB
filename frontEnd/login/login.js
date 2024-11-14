@@ -8,7 +8,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const password = document.getElementById("password").value;
     
     try {
-        const response = await fetch(`${CONFIG.BASE_URL}/login`, {
+        const response = await fetch("https://virtual-tpb-f5cw.vercel.app/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
