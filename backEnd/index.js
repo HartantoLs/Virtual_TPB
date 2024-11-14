@@ -92,19 +92,29 @@ app.post("/register", async (req, res) => {
     const email = req.body.username;
     const password = req.body.password;
 
+    if (!email || !password) {
+        return res.status(400).json({ error: "Username and password are required." });
+    }
+
     try {
+        
         const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
         if (checkResult.rows.length > 0) {
-            res.status(401).json({ error: "Email already exists. Try logging in." });
-        } else {
-            await db.query("INSERT INTO users (email, password) VALUES ($1, $2)", [email, password]);
-            res.redirect("/login");
+            return res.status(409).json({ error: "Email already exists. Try logging in." });
         }
+
+        
+        await db.query("INSERT INTO users (email, password) VALUES ($1, $2)", [email, password]);
+
+       
+        res.status(201).json({ message: "Registration successful. Please log in." });
+
     } catch (err) {
         console.error("Error during registration:", err);
-        res.status(500).json({ error: "Internal server error" });
+        res.status(500).json({ error: "Internal server error. Please try again later." });
     }
 });
+
 
 app.post("/login", async (req, res) => {
     const email = req.body.username;
