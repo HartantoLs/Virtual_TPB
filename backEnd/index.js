@@ -46,11 +46,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: process.env.SESSION_SECRET || 'defaultSecret',
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 60 * 60 * 1000 }
 }));
+
 
 async function saveHistory(user_id, action) {
     const timestamp = new Date();
@@ -83,14 +84,21 @@ function authenticateSession(req, res, next) {
 }
 
 app.get("/dashboard", authenticateSession, async (req, res) => {
-    const user_id = req.session.user.id;
-    await saveHistory(user_id, "Akses Dashboard");
-    res.sendFile(path.join(__dirname, '..', "frontEnd", "index.html"));
+    try {
+        const user_id = req.session.user.id;
+        await saveHistory(user_id, "Akses Dashboard");
+        res.sendFile(path.join(__dirname, '..', "frontEnd", "index.html"));
+    } catch (err) {
+        console.error("Error accessing dashboard:", err);
+        res.status(500).json({ error: "Failed to load dashboard" });
+    }
 });
 
 app.post("/register", async (req, res) => {
-    const email = req.body.username;
-    const password = req.body.password;
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ error: "Username and password are required" });
+    }
 
     try {
         const checkResult = await db.query("SELECT * FROM users WHERE email = $1", [email]);
