@@ -29,11 +29,12 @@ app.use(cors({
 // Menggunakan connection string Neon untuk koneksi database
 const { Client } = pg;
 const db = new Client({
-    connectionString: 'postgresql://neondb_owner:Mnkaqco3t1KC@ep-rapid-lab-a4jqwo0v.us-east-1.aws.neon.tech/neondb?sslmode=require',
+    connectionString: process.env.DATABASE_URL, // Menggunakan connection string dari .env
     ssl: {
         rejectUnauthorized: false
     }
 });
+
 
 (async () => {
     try {
@@ -62,6 +63,17 @@ async function saveHistory(user_id, action) {
         console.error("Failed to save history:", err);
     }
 }
+
+app.get("/test-db-connection", async (req, res) => {
+    try {
+        const result = await db.query("SELECT NOW()");
+        res.json({ message: "Database connection is successful", timestamp: result.rows[0].now });
+    } catch (err) {
+        console.error("Error testing database connection:", err);
+        res.status(500).json({ error: "Failed to connect to the database" });
+    }
+});
+
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "home.html"));
