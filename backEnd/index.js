@@ -26,11 +26,13 @@ app.use(cors({
     credentials: true // Mengizinkan pengiriman cookie untuk autentikasi sesi
 }));
 
-// Menggunakan DATABASE_URL untuk koneksi database
+// Menggunakan connection string Neon untuk koneksi database
 const { Client } = pg;
 const db = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+    connectionString: 'postgresql://neondb_owner:Mnkaqco3t1KC@ep-rapid-lab-a4jqwo0v.us-east-1.aws.neon.tech/neondb?sslmode=require',
+    ssl: {
+        rejectUnauthorized: false
+    }
 });
 
 (async () => {
