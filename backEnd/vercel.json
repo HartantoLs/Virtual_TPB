@@ -6,7 +6,29 @@
     ],
     
     "routes": [
-      { "src": "/api/(.*)", "dest": "/api/index.js" },
-      { "src": "/(.*)", "dest": "/index.html" }
+      {
+        "src": "/",
+        "dest": "/frontEnd/login/home.html"
+      },
+      {
+        "src": "/login",
+        "dest": "/frontEnd/login/login.html"
+      },
+      {
+        "src": "/materiRev",
+        "dest": "/frontEnd/materiRev/materiRev.html"
+      },
+      {
+        "src": "/bookFis",
+        "dest": "/frontEnd/bookFis/bookFis.html"
+      },
+      {
+        "src": "/register",
+        "dest": "/frontEnd/login/register .html"
+      },
+      {
+        "src": "/dashboard",
+        "dest": "/frontEnd/index.html"
+      }
     ]
   }
