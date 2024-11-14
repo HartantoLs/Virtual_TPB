@@ -15,8 +15,8 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: "http://localhost:3000", // Sesuaikan dengan URL dari frontend Anda
-    credentials: true // Mengizinkan pengiriman cookie (untuk sesi)
+    origin: "*",  // Membolehkan semua origin
+    credentials: true
 }));
 
 // Menggunakan DATABASE_URL untuk koneksi database
