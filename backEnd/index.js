@@ -12,28 +12,35 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = process.env.PORT || 3000;  
+const port = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: "http://localhost:3000",  // Sesuaikan dengan URL dari frontend Anda
-    credentials: true                 // Mengizinkan pengiriman cookie (untuk sesi)
+    origin: "http://localhost:3000", // Sesuaikan dengan URL dari frontend Anda
+    credentials: true // Mengizinkan pengiriman cookie (untuk sesi)
 }));
 
-const db = new pg.Client({
-    user: process.env.DB_USER,  
-    host: process.env.DB_HOST,  
-    database: process.env.DB_NAME,  
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT  
+// Menggunakan DATABASE_URL untuk koneksi database
+const { Client } = pg;
+const db = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false // SSL configuration for Neon PostgreSQL
+    }
 });
-db.connect();
+
+db.connect()
+    .then(() => {
+        console.log("Connected to the database successfully!");
+    })
+    .catch((err) => {
+        console.error("Failed to connect to the database:", err.stack);
+    });
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-
 app.use(session({
-    secret: process.env.SESSION_SECRET,  // Use environment variable for session secret
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 60 * 60 * 1000 }
