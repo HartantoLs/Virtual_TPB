@@ -15,8 +15,15 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(cors({
-    origin: "*",  // Membolehkan semua origin
-    credentials: true
+    origin: (origin, callback) => {
+        const allowedOrigins = ["http://localhost:3000", "https://virtual-tpb-f5cw.vercel.app"];
+        if (allowedOrigins.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true // Mengizinkan pengiriman cookie untuk autentikasi sesi
 }));
 
 // Menggunakan DATABASE_URL untuk koneksi database
