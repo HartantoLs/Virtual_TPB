@@ -35,7 +35,6 @@ const db = new Client({
     }
 });
 
-
 (async () => {
     try {
         await db.connect();
@@ -63,17 +62,6 @@ async function saveHistory(user_id, action) {
         console.error("Failed to save history:", err);
     }
 }
-
-app.get("/test-db-connection", async (req, res) => {
-    try {
-        const result = await db.query("SELECT NOW()");
-        res.json({ message: "Database connection is successful", timestamp: result.rows[0].now });
-    } catch (err) {
-        console.error("Error testing database connection:", err);
-        res.status(500).json({ error: "Failed to connect to the database" });
-    }
-});
-
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "home.html"));
@@ -127,6 +115,10 @@ app.post("/register", async (req, res) => {
 app.post("/login", async (req, res) => {
     const email = req.body.username;
     const password = req.body.password;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: "Username and password are required." });
+    }
 
     try {
         const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
@@ -207,11 +199,15 @@ app.get("/user-history", authenticateSession, async (req, res) => {
 app.post("/change-password", authenticateSession, async (req, res) => {
     const { oldPassword, newPassword } = req.body;
 
+    if (!oldPassword || !newPassword) {
+        return res.status(400).json({ error: "Old password and new password are required." });
+    }
+
     try {
         const userResult = await db.query("SELECT password FROM users WHERE id = $1", [req.session.user.id]);
 
         if (userResult.rows.length === 0 || userResult.rows[0].password !== oldPassword) {
-            return res.status(400).json({ message: "Incorrect old password" });
+            return res.status(400).json({ error: "Incorrect old password" });
         }
 
         await db.query("UPDATE users SET password = $1 WHERE id = $2", [newPassword, req.session.user.id]);
@@ -238,6 +234,10 @@ app.post("/logout", (req, res) => {
 app.post("/save-game-result", authenticateSession, async (req, res) => {
     const { result, distance_to_finish } = req.body;
     const user_id = req.session.user.id;
+
+    if (!result || !distance_to_finish) {
+        return res.status(400).json({ error: "Result and distance to finish are required." });
+    }
 
     try {
         await db.query("INSERT INTO game_results (user_id, result, distance_to_finish, timestamp) VALUES ($1, $2, $3, NOW())", [user_id, result, distance_to_finish]);
