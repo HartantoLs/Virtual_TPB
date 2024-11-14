@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="../login/config.js" type="module"></script>
+    <meta charset="UTF-8">
+    <title>Eksperimen Fisika</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="eksperimenFisika.css">
+</head>
+<body>
+    <h1 id = "titleHead">
+        VIRTUAL TPB
+    </h1>
+    <header>
+        
+        <div class="nav">
+            <ul>
+                <li><a clas="home headerButton" href="../../dashboard"><i class="fas fa-home"></i>
+                    Home
+                </a></li>
+                <li><a href="../header/note.html" class="trackable" data-description="Akses ke Note"><i class="fas fa-pencil"></i>
+                    Note    
+                </a></li>
+                <li><a href="../header/about.html"><i class="fas fa-info-circle"></i>
+                    About
+                </a></li>
+                <li><a href="../header/profile.html" class="trackable" data-description="Akses Profile"><i class="fas fa-user"></i>
+                    Profile
+                </a></li>  
+            </ul>
+        </div>
+    </header>
+    <div class="container">
+        <h2>
+            GLB Distance Game 
+        </h2>
+        <p id="des2">
+            Try to Reach The Finish Line
+        </p>
+        <div id="guide">
+            <button id="guideButton">
+                <svg height="100" width="100" xmlns="http://www.w3.org/2000/svg" id="lamp" viewBox="0 0 32 32">
+                    <path d="M17.5 31a.5.5 0 0 0 .5-.5V29h.5a.5.5 0 0 0 .5-.5V27h.5a.5.5 0 0 0 .5-.5v-4.444A9.02 9.02 0 0 0 25 14c0-4.962-4.038-9-9-9s-9 4.038-9 9a9.02 9.02 0 0 0 5 8.056V26.5a.5.5 0 0 0 .5.5h.5v1.5a.5.5 0 0 0 .5.5h.5v1.5a.5.5 0 0 0 1 0V29h2v1.5a.5.5 0 0 0 .5.5zm-4.793-9.716A8.015 8.015 0 0 1 8 14c0-4.411 3.589-8 8-8s8 3.589 8 8a8.015 8.015 0 0 1-4.707 7.284.5.5 0 0 0-.293.456V26h-1.5v-3.909l1.468-3.915a.485.485 0 0 0 .006-.301c.012-.041.026-.081.026-.125 0-.965-.785-1.75-1.75-1.75-.49 0-.932.204-1.25.529A1.745 1.745 0 0 0 14.75 16c-.965 0-1.75.785-1.75 1.75 0 .044.014.084.025.125a.492.492 0 0 0 .006.301l1.468 3.915V26H13v-4.26a.5.5 0 0 0-.293-.456zm2.761.54l-1.489-3.971c.008-.034.021-.066.021-.103a.75.75 0 0 1 1.5 0 .5.5 0 0 0 1 0 .75.75 0 0 1 1.5 0c0 .037.013.069.021.103l-1.489 3.971A.503.503 0 0 0 16.5 22v4h-1v-4c0-.06-.011-.12-.032-.176zM18 27v1h-4v-1h4zM16.5 3.5v-2a.5.5 0 0 0-1 0v2a.5.5 0 0 0 1 0zM26 14a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 0-1h-2a.5.5 0 0 0-.5.5zM3.5 14.5h2a.5.5 0 0 0 0-1h-2a.5.5 0 0 0 0 1zM20.018 4.799a.5.5 0 0 0 .462-.309l.766-1.848a.5.5 0 1 0-.924-.382l-.766 1.848a.5.5 0 0 0 .462.691zM25.509 18.48l1.848.766a.497.497 0 0 0 .653-.271.5.5 0 0 0-.271-.653l-1.848-.766a.5.5 0 0 0-.382.924zM4.26 9.678l1.848.766a.497.497 0 0 0 .653-.271.5.5 0 0 0-.27-.653l-1.848-.766a.5.5 0 1 0-.383.924zM23.071 6.222a.5.5 0 0 0 .708.707l1.414-1.414a.5.5 0 0 0-.707-.707l-1.415 1.414zM7.161 23.339a.502.502 0 0 0 .354-.146l1.414-1.414a.5.5 0 0 0-.707-.707l-1.414 1.414a.5.5 0 0 0 .353.853zM24.485 23.192a.498.498 0 0 0 .708 0 .5.5 0 0 0 0-.707l-1.414-1.414a.5.5 0 0 0-.707.707l1.413 1.414zM6.808 4.808a.5.5 0 0 0 0 .707l1.414 1.414a.498.498 0 0 0 .708 0 .5.5 0 0 0 0-.707L7.515 4.808a.499.499 0 0 0-.707 0zM27.357 8.754l-1.848.766a.5.5 0 0 0 .382.924l1.848-.766a.5.5 0 0 0-.382-.924zM6.108 17.556l-1.848.766a.5.5 0 0 0 .382.924l1.848-.766a.5.5 0 0 0-.382-.924zM11.982 4.799a.5.5 0 0 0 .462-.691l-.766-1.848a.5.5 0 0 0-.924.382l.766 1.848a.5.5 0 0 0 .462.309z"></path>
+                  </svg>
+            </button>
+            <div id="popup" class="popup">
+                <div class="popup-content">
+                    <span class="close-button">&times;</span>
+                    <h2>Guide to Play!</h2>
+                    
+                        <ol>
+                            <li>
+                                Tekan play button untuk memulai permainan
+                            </li>
+                            <li>
+                                Atur kecepatan dan waktu sesuai dengan jarak ke finish line menggunakan rumus GLB
+                            </li>
+                            <li>
+                                Tekan check button yang berada di tengah layar permainan untuk memajukan mobil
+                            </li>
+                            <li>
+                                Tombol reset untuk menghilangkan mobil, line dan nilai pada time, speed, distance, serta mematikan lagu
+                            </li>
+                        </ol>
+                   
+                </div>
+            </div>
+        </div>
+        <div class="input">
+            <button id="startButton" class="trackable" data-description="Memulai Game"><i class="fas fa-play"></i></button>
+            <button id="resetButton" class="trackable" data-description="Mereset Game"><svg class="reset" width="100" height="65" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" id="restart">
+                <path fill="#111" d="M18.2577 3.50828C18.538 3.62437 18.7207 3.89785 18.7207 4.20119V8.44383C18.7207 8.85805 18.3849 9.19383 17.9707 9.19383H13.728C13.4247 9.19383 13.1512 9.0111 13.0351 8.73085C12.9191 8.45059 12.9832 8.128 13.1977 7.9135L14.8007 6.3105C12.1674 5.20912 9.01606 5.7309 6.87348 7.87348C4.04217 10.7048 4.04217 15.2952 6.87348 18.1265C9.70478 20.9578 14.2952 20.9578 17.1265 18.1265C18.7727 16.4803 19.4622 14.2401 19.1935 12.0937C19.142 11.6827 19.4335 11.3078 19.8445 11.2563C20.2555 11.2049 20.6304 11.4963 20.6819 11.9073C21.0057 14.4934 20.1746 17.1997 18.1872 19.1872C14.7701 22.6043 9.2299 22.6043 5.81282 19.1872C2.39573 15.7701 2.39573 10.2299 5.81282 6.81282C8.55119 4.07444 12.6515 3.5312 15.9309 5.18028L17.4404 3.67086C17.6549 3.45637 17.9774 3.3922 18.2577 3.50828Z"></path>
+              </svg></button>
+            <label>Speed 1-40 (px/s) <input type="number" id="speed" value="10" min="1" max="40"></label>
+            <label>Time 1-10 (s) <input type="number" id="time" value="10" min="1" max="10"></label>
+            
+        </div>
+        <div class="simulation" id="simulation">
+            <h3>Reach the Finish Line</h3>
+            <h4 id="goalDistance">Distance to Goal</h4>
+            <img id="carToy" src="../image/Car toy.gif"/>
+            <div id="finishLine"></div>
+            <button class="checkButton" id="checkButton"><svg  xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 32 32" id="clipboard-upload">
+                <path d="M15 20l-3.25 3.25-0.75-0.75 4.5-4.5 4.5 4.5-0.75 0.75-3.25-3.25v10h-1v-10zM13 5v-1.002c0-1.1 0.898-1.998 2.005-1.998h0.99c1.111 0 2.005 0.895 2.005 1.998v1.002h2.004c0.551 0 0.996 0.447 0.996 0.999v1.002c0 0.556-0.446 0.999-0.996 0.999h-9.009c-0.551 0-0.996-0.447-0.996-0.999v-1.002c0-0.556 0.446-0.999 0.996-0.999h2.004zM12 4h-0.997c-1.104 0-2 0.891-2.003 2h-1.003c-1.103 0-1.997 0.89-1.997 2.004v20.993c0 1.107 0.891 2.004 1.997 2.004h15.005c1.103 0 1.997-0.89 1.997-2.004v-20.993c0-1.107-0.891-2.004-1.997-2.004h-1.003c-0.003-1.105-0.895-2-2.003-2h-0.997c-0.001-1.657-1.35-3-3.009-3h-0.982c-1.661 0-3.008 1.338-3.009 3v0 0zM22 7h1c0.545 0 1 0.449 1 1.003v20.994c0 0.564-0.448 1.003-1 1.003h-15c-0.545 0-1-0.449-1-1.003v-20.994c0-0.564 0.448-1.003 1-1.003h1c0.003 1.105 0.895 2 2.003 2h8.994c1.104 0 2-0.891 2.003-2v0 0zM15.5 5c0.276 0 0.5-0.224 0.5-0.5s-0.224-0.5-0.5-0.5c-0.276 0-0.5 0.224-0.5 0.5s0.224 0.5 0.5 0.5v0z"></path>
+              </svg></button>
+        </div>
+        <div class="result">
+            <div id="timeRes" class="res">Time</div>
+            <div id="speedRes" class="res">Speed</div>
+            <div id="distanceRes" class="res">Distance</div>
+        </div>
+        <div class="dropdown">
+            <button class="dropdown-btn">Riwayat Permainan</button>
+            <div class="dropdown-content" id="historySection">
+                <table id="gameHistoryTable">
+                    <thead>
+                        <tr>
+                            <th>Hasil</th>
+                            <th>Jarak ke Garis Finish (px)</th>
+                            <th>Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody id="gameHistoryList">
+                        <!-- Riwayat permainan akan ditampilkan di sini -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <h2>
+            Developed by Hartanto Luwis
+        </h2>
+    </footer>
+    
+    <div id="custom-alert" class="custom-alert hidden">
+        <div class="custom-alert-content" id="custom-alert-content">
+            <span id="custom-alert-message">This is an important message!</span>
+        </div>
+    </div>
+
+    <div id="false-alert" class="false-alert hidden">
+        <div class="false-alert-content" id="false-alert-content">
+            <span id="false-alert-message">This is an important message!</span>
+        </div>
+    </div>
+
+    <div id="winner-alert" class="winner-alert hidden">
+        <div class="winner-alert-content" id="winner-alert-content">
+            <span id="winner-alert-message">This is an important message!</span>
+        </div>
+    </div>
+    <!-- <script id="soundTrack" src="eksperimenFisika.js" charset="utf-8"></script> -->
+    <script src="eksperimenFisika.js" type ="module" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+body{
+    background-color: #222831;
+    border: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Raleway';
+}
+
+h1{
+    font-family: 'Raleway';
+    letter-spacing: 30px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 1000px;
+    flex-grow: 1;
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    animation: fadeIn 1.5s ease-in-out;
+    flex: 1;
+    max-height:750px;
+    justify-content: center;
+}
+
+.card{
+    width: 50%;
+    padding: 10px;
+    margin-top: 20px;
+    background: transparent;
+    box-shadow: 0 8px 20px rgba(255,255,255, 0.3);
+    border-radius: 30px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.4);
+}
+
+.deskripsi{
+    color: white;
+    font-family: 'Raleway';
+    letter-spacing: 5px;
+    font-weight: 500;
+}
+
+
+.submit{
+    margin-top: 30px;
+    background-color: white;
+    border-radius: 100px;
+    opacity: 0.5;
+    padding: 10px 20px;
+    letter-spacing: 3px;
+    color: #222831;
+    font-weight: 500;
+}
+
+#pwText{
+    margin-top: 20px;
+}
+
+.submit:hover{
+    background-color: white;
+    opacity: 1;
+    transform: translateY(-2);
+    color: #222831;
+}
+
+.form-control{
+    border :#222831 solid 1.5px;
+    opacity: 0.8;
+}

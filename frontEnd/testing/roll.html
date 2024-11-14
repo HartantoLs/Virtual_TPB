@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLB Distance Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #222831, #393e46);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+        }
+        header, footer {
+            width: 100%;
+            padding: 20px;
+            background-color: #00adb5;
+            text-align: center;
+            font-size: 1.5em;
+            color: #222831;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        #controls {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #393e46;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+        #controls label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #eeeeee;
+            width: 100%;
+        }
+        #controls label span {
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #00adb5;
+        }
+        #controls input {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            border: 1px solid #00adb5;
+            background-color: #eeeeee;
+            color: #222831;
+            width: 100%;
+            max-width: 250px;
+        }
+        #controls button {
+            padding: 12px 25px;
+            font-size: 1em;
+            color: #ffffff;
+            background-color: #00adb5;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s;
+            margin-top: 10px;
+        }
+        #controls button:hover {
+            background-color: #007f88;
+            transform: scale(1.05);
+        }
+        #simulation {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            height: 50vh;
+            max-height: 300px;
+            background: linear-gradient(135deg, #eeeeee, #dcdcdc);
+            border: 2px solid #00adb5;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        .object {
+            position: absolute;
+            bottom: 20px;
+            width: 8%;
+            max-width: 50px;
+            height: auto;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            background-color: #00adb5;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+        }
+        #finishLine {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2%;
+            max-width: 10px;
+            background-color: #222831;
+            border-radius: 5px;
+        }
+        .info-display {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #eeeeee;
+            padding: 20px;
+            background-color: #393e46;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .info-display div {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px;
+            background-color: #00adb5;
+            border-radius: 10px;
+            color: #222831;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <header>GLB Distance Game - Newton's Experiment</header>
+    <div id="controls">
+        <label>
+            <span>Speed (px/s):</span>
+            <input type="number" id="speed" value="10" min="1" max="20">
+        </label>
+        <label>
+            <span>Time (s):</span>
+            <input type="number" id="time" value="10" min="1" max="20">
+        </label>
+        <button onclick="startGame()">Start Game</button>
+        <button onclick="resetGame()">Reset</button>
+    </div>
+    <div id="simulation">
+        <div class="object" id="object"></div>
+        <div id="finishLine"></div>
+    </div>
+    <div class="info-display">
+        <div id="timeDisplay">Time: 0 s</div>
+        <div id="speedDisplay">Speed: 0 m/s</div>
+        <div id="distanceDisplay">Distance (s = v * t): 0 m</div>
+    </div>
+    <footer>© 2024 Newton's Experiment Simulation - All Rights Reserved</footer>
+    <script>
+        const object = document.getElementById('object');
+        const finishLine = document.getElementById('finishLine');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const speedDisplay = document.getElementById('speedDisplay');
+        const distanceDisplay = document.getElementById('distanceDisplay');
+
+        let position = 0;
+        let speed = 0;
+        let time = 0;
+        let distance = 0;
+
+        function startGame() {
+            speed = parseFloat(document.getElementById('speed').value);
+            time = parseFloat(document.getElementById('time').value);
+            if (speed < 1 || speed > 20) {
+                alert('Please enter a speed value between 1 and 20.');
+                return;
+            }
+            if (time < 1 || time > 20) {
+                alert('Please enter a time value between 1 and 20.');
+                return;
+            }
+
+            // Display the speed and time
+            speedDisplay.textContent = 'Speed: ' + speed + ' m/s';
+            timeDisplay.textContent = 'Time: ' + time + ' s';
+
+            // Calculate the distance (s = v * t)
+            distance = speed * time;
+            distanceDisplay.textContent = 'Distance (s = v * t): ' + distance + ' m';
+
+            // Set a random position for the finish line between 60% and 95% of the container width
+            const finishPosition = Math.floor(Math.random() * (0.35 * simulation.clientWidth)) + (0.6 * simulation.clientWidth);
+            finishLine.style.left = finishPosition + 'px';
+
+            position = 0;
+            object.style.left = position + 'px';
+
+            moveObject(distance, finishPosition);
+        }
+
+        function moveObject(targetDistance, finishPosition) {
+            const totalDistance = finishPosition - object.clientWidth;
+            const step = totalDistance / targetDistance;
+            position += step;
+
+            if (position >= finishPosition - object.clientWidth) {
+                if (Math.abs(position - (finishPosition - object.clientWidth)) <= 1) {
+                    alert('Congratulations! You reached the target distance accurately.');
+                } else {
+                    alert('Congratulations! You reached the target distance.');
+                }
+                return;
+            }
+
+            object.style.left = position + 'px';
+            requestAnimationFrame(() => moveObject(targetDistance, finishPosition));
+        }
+
+        function resetGame() {
+            position = 0;
+            speed = 0;
+            time = 0;
+            object.style.left = position + 'px';
+            timeDisplay.textContent = 'Time: 0 s';
+            speedDisplay.textContent = 'Speed: 0 m/s';
+            distanceDisplay.textContent = 'Distance (s = v * t): 0 m';
+        }
+    </script>
+</body>
+</html>

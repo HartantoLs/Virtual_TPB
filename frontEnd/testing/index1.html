@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newton's Second Law Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom, #87cefa, #f0f0f0);
+            font-family: Arial, sans-serif;
+        }
+        #controls {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+        #controls label {
+            font-size: 1em;
+            margin-right: 10px;
+        }
+        #controls button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #28a745;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        #controls button:hover {
+            background-color: #218838;
+        }
+        #simulation {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            height: 50vh;
+            max-height: 300px;
+            background-color: #fff;
+            border: 2px solid #333;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .object {
+            position: absolute;
+            bottom: 20px;
+            width: 8%;
+            max-width: 50px;
+            height: auto;
+            aspect-ratio: 1/1;
+            border-radius: 10px;
+            background-color: #ff6347;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        #finishLine {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2%;
+            max-width: 10px;
+            background-color: #32cd32;
+            border-radius: 5px;
+        }
+        #timeDisplay, #massDisplay {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #333;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <label>Force Applied (N) (1 - 50): <input type="number" id="force" value="20" min="1" max="50"></label>
+        <button onclick="startGame()">Start Game</button>
+    </div>
+    <div id="simulation">
+        <div class="object" id="object"></div>
+        <div id="finishLine"></div>
+    </div>
+    <div id="timeDisplay">Time: 0</div>
+    <div id="massDisplay">Mass: 0 kg</div>
+    <script>
+        const object = document.getElementById('object');
+        const finishLine = document.getElementById('finishLine');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const massDisplay = document.getElementById('massDisplay');
+
+        let position = 0;
+        let speed = 0;
+        let acceleration = 0;
+        let time = 0;
+        const frictionCoefficient = 0.1; // Friction coefficient (simulated)
+
+        function startGame() {
+            const mass = Math.floor(Math.random() * 20) + 5; // Random mass between 5 and 25 kg
+            const force = parseFloat(document.getElementById('force').value);
+
+            if (force < 1 || force > 50) {
+                alert('Please enter a force value between 1 and 50.');
+                return;
+            }
+
+            // Display the random mass
+            massDisplay.textContent = 'Mass: ' + mass + ' kg';
+
+            // Calculate acceleration (a = (F - F_friction) / m)
+            const frictionForce = frictionCoefficient * mass * 9.8; // F_friction = μ * m * g
+            acceleration = (force - frictionForce) / mass;
+            if (acceleration < 0) acceleration = 0; // Ensure acceleration is not negative due to friction
+            speed = 0;
+            position = 0;
+            time = 0;
+            object.style.left = position + 'px';
+
+            // Set a random position for the finish line between 60% and 95% of the container width
+            const finishPosition = Math.floor(Math.random() * (0.35 * simulation.clientWidth)) + (0.6 * simulation.clientWidth);
+            finishLine.style.left = finishPosition + 'px';
+
+            moveObject(finishPosition);
+        }
+
+        function moveObject(finishPosition) {
+            if (Math.abs(position + object.clientWidth - finishPosition) <= 1) { // Reached the exact finish line
+                alert('Congratulations! You reached the exact finish line.');
+                return;
+            }
+
+            if (time < 200) { // Limit time to ensure the object keeps moving
+                speed += acceleration; // Update speed
+                speed *= (1 - frictionCoefficient); // Apply friction to slow down the object
+                position += speed; // Update position
+                object.style.left = position + 'px';
+                time++;
+                timeDisplay.textContent = 'Time: ' + time;
+                requestAnimationFrame(() => moveObject(finishPosition));
+            } else {
+                alert('Time is up! You did not reach the finish line.');
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            position = 0;
+            speed = 0;
+            time = 0;
+            object.style.left = position + 'px';
+            timeDisplay.textContent = 'Time: 0';
+        }
+    </script>
+</body>
+</html>

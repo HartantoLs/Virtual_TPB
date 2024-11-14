@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Virtual Lab - Home</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #F0F0F0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            background-color: #1F2933;
+            padding: 40px 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        header h1 {
+            color: #ffffff;
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.5em;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #62BEC1;
+            transform: scale(1.1);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .logo {
+            width: 200px;
+            height: auto;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-20px);
+            }
+            60% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .home-container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: #ffffff;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 25px;
+            margin-top: 20px;
+            text-align: center;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .home-container h2 {
+            font-size: 3em;
+            color: #1F2933;
+            margin-bottom: 25px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .home-container p {
+            font-size: 1.5em;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 50px;
+        }
+
+        .experiment-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .experiment-card {
+            background-color: #ffffff;
+            padding: 30px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+            opacity: 0;
+            transform: translateY(20px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .experiment-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .experiment-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .experiment-card i {
+            font-size: 4em;
+            color: #1F2933;
+            margin-bottom: 20px;
+            transition: transform 0.4s;
+        }
+
+        .experiment-card h3 {
+            font-size: 2em;
+            color: #1F2933;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .experiment-card p {
+            font-size: 1.2em;
+            color: #4B5563;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .experiment-card a {
+            text-decoration: none;
+            background-color: #62BEC1;
+            color: #ffffff;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+            display: inline-block;
+            font-size: 1.2em;
+        }
+
+        .experiment-card a:hover {
+            background-color: #38A1A8;
+            transform: scale(1.1);
+        }
+
+        footer {
+            width: 100%;
+            background-color: #1F2933;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Virtual Lab</h1>
+        <nav>
+            <ul>
+                <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#"><i class="fas fa-flask"></i> Experiments</a></li>
+                <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="logo-container">
+        <img src="newton.png" alt="Virtual Lab Logo" class="logo">
+    </div>
+    <div class="home-container">
+        <h2>Welcome to the Virtual Lab</h2>
+        <p>Explore various physics and chemistry experiments in a virtual environment. Learn about scientific concepts interactively and visually. Select an experiment below to get started.</p>
+        <div class="experiment-list">
+            <div class="experiment-card">
+                <i class="fas fa-rocket"></i>
+                <h3>Newton's Second Law Experiment</h3>
+                <p>Learn how force, mass, and acceleration are related by conducting an interactive experiment demonstrating Newton's Second Law.</p>
+                <a href="newtons-second-law.html"><i class="fas fa-play"></i> Start Experiment</a>
+            </div>
+            <div class="experiment-card">
+                <i class="fas fa-vial"></i>
+                <h3>Chemical Reactions</h3>
+                <p>Mix different chemicals and observe the reactions. Understand how different substances interact and the results of these interactions.</p>
+                <a href="#"><i class="fas fa-clock"></i> Coming Soon</a>
+            </div>
+            <div class="experiment-card">
+                <i class="fas fa-lightbulb"></i>
+                <h3>Optics and Light</h3>
+                <p>Discover the properties of light by exploring reflection, refraction, and diffraction through interactive simulations.</p>
+                <a href="#"><i class="fas fa-clock"></i> Coming Soon</a>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Virtual Lab. All rights reserved.</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.experiment-card');
+            cards.forEach((card, index) => {
+                setTimeout(() => {
+                    card.classList.add('visible');
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
