@@ -54,6 +54,16 @@ app.use(session({
     cookie: { maxAge: 60 * 60 * 1000 }
 }));
 
+// Middleware untuk menghilangkan trailing slash
+app.use((req, res, next) => {
+    if (req.path.substr(-1) === '/' && req.path.length > 1) {
+        const query = req.url.slice(req.path.length);
+        res.redirect(301, req.path.slice(0, -1) + query);
+    } else {
+        next();
+    }
+});
+
 async function saveHistory(user_id, action) {
     const timestamp = new Date();
     try {
@@ -69,6 +79,7 @@ app.get("/", (req, res) => {
 app.use(express.static(path.join(__dirname, "..", "frontEnd")));
 
 app.get("/login", (req, res) => {
+    console.log("Rute /login diakses");
     res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "login.html"));
 });
 
