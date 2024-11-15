@@ -14,18 +14,13 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors({
-    origin: (origin, callback) => {
-        const allowedOrigins = ["http://localhost:3000", "https://virtual-tpb-f5cw.vercel.app"];
-        if (allowedOrigins.includes(origin) || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true
-}));
-
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    next();
+  });
+  
 const { Client } = pg;
 const db = new Client({
     connectionString: process.env.DATABASE_URL,
@@ -58,14 +53,14 @@ app.use(session({
 }));
 
 
-app.use((req, res, next) => {
-    if (req.path.endsWith('/') && req.path.length > 1) {
-        const query = req.url.slice(req.path.length);
-        res.redirect(301, req.path.slice(0, -1) + query);
-    } else {
-        next();
-    }
-});
+// app.use((req, res, next) => {
+//     if (req.path.endsWith('/') && req.path.length > 1) {
+//         const query = req.url.slice(req.path.length);
+//         res.redirect(301, req.path.slice(0, -1) + query);
+//     } else {
+//         next();
+//     }
+// });
 
 // Middleware untuk autentikasi sesi
 function authenticateSession(req, res, next) {
@@ -89,16 +84,7 @@ app.get("/", (req, res) => {
 app.use(express.static(path.join(__dirname, "..", "frontEnd")));
 
 app.get("/login", (req, res) => {
-    if (req.session.user) {
-        if (req.path !== "/dashboard") {
-            res.redirect("/dashboard");
-        } else {
-            next();
-        }
-    } else {
-        console.log("Accessing /login page");
-        res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "login.html"));
-    }
+    res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "login.html"));
 });
 
 app.get("/register", (req, res) => {
