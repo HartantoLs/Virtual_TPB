@@ -30,6 +30,7 @@ body {
     letter-spacing: 10px;
     font-weight: 600;
     text-decoration: none;
+    text-align: center;
 }
 
 #regButton:hover{
@@ -54,6 +55,7 @@ body {
     letter-spacing: 10px;
     font-weight: 600;
     text-decoration: none;
+    text-align: center;
 }
 
 #logButton:hover{
