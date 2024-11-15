@@ -26,7 +26,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             const data = await response.json();
             console.log("Login successful", data);
             // Redirect to dashboard upon successful login
-            window.location.href = `${CONFIG.BASE_URL}/dashboard`;
+            window.location.href = "https://virtual-tpb.vercel.app/dashboard";
         } else {
             // If response is not OK, handle it by showing the error
             let errorMsg = 'Login failed. Please try again.';
