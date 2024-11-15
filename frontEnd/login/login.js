@@ -21,7 +21,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             }),
         });
 
-        // Check if response is OK (status code 2xx)
+        // Check if the response is OK (status code 2xx)
         if (response.ok) {
             const data = await response.json();
             console.log("Login successful", data);
@@ -34,7 +34,9 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
                 const error = await response.json();
                 errorMsg = error.error || errorMsg;
             } catch (err) {
+                // If the response isn't JSON, log it and show a fallback error
                 console.error("Error parsing response JSON:", err);
+                errorMsg = "An unexpected error occurred. Please try again.";
             }
             alert(errorMsg); // Show alert with error message
         }
