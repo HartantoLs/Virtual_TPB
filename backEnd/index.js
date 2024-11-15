@@ -73,10 +73,6 @@ async function saveHistory(user_id, action) {
     }
 }
 
-app.get("/favicon.ico", (req, res) => {
-    res.status(204).send(); // Mengembalikan status 204 untuk menghindari error 404 favicon.ico
-});
-
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "home.html"));
 });
