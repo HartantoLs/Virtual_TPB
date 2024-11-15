@@ -23,13 +23,12 @@ app.use(cors({
             callback(new Error("Not allowed by CORS"));
         }
     },
-    credentials: true // Mengizinkan pengiriman cookie untuk autentikasi sesi
+    credentials: true
 }));
 
-// Menggunakan connection string Neon untuk koneksi database
 const { Client } = pg;
 const db = new Client({
-    connectionString: process.env.DATABASE_URL, // Menggunakan connection string dari .env
+    connectionString: process.env.DATABASE_URL,
     ssl: {
         rejectUnauthorized: false
     }
@@ -50,13 +49,17 @@ app.use(bodyParser.json());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60 * 60 * 1000 }
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000,
+        secure: process.env.NODE_ENV === "production", // hanya aktif jika di produksi
+        sameSite: "lax" // mencegah pengiriman cookie silang
+    }
 }));
 
 // Middleware untuk menghilangkan trailing slash
 app.use((req, res, next) => {
-    if (req.path.substr(-1) === '/' && req.path.length > 1) {
+    if (req.path.endsWith('/') && req.path.length > 1) {
         const query = req.url.slice(req.path.length);
         res.redirect(301, req.path.slice(0, -1) + query);
     } else {
@@ -64,41 +67,81 @@ app.use((req, res, next) => {
     }
 });
 
-async function saveHistory(user_id, action) {
-    const timestamp = new Date();
-    try {
-        await db.query("INSERT INTO history (user_id, action, timestamp) VALUES ($1, $2, $3)", [user_id, action, timestamp]);
-    } catch (err) {
-        console.error("Failed to save history:", err);
+// Middleware untuk autentikasi sesi
+function authenticateSession(req, res, next) {
+    if (req.session.user) {
+        next();
+    } else {
+        console.log("User not authenticated, redirecting to /login");
+        res.redirect("/login");
     }
 }
+
+app.get("/favicon.ico", (req, res) => res.sendStatus(204));
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "home.html"));
 });
+
 app.use(express.static(path.join(__dirname, "..", "frontEnd")));
 
 app.get("/login", (req, res) => {
-    console.log("Rute /login diakses");
-    res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "login.html"));
+    if (req.session.user) {
+        res.redirect("/dashboard");
+    } else {
+        console.log("Accessing /login page");
+        res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "login.html"));
+    }
 });
 
 app.get("/register", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "register.html"));
 });
 
-function authenticateSession(req, res, next) {
-    if (req.session.user) {
-        next();
-    } else {
-        res.redirect("/login");
-    }
-}
-
 app.get("/dashboard", authenticateSession, async (req, res) => {
     const user_id = req.session.user.id;
     await saveHistory(user_id, "Akses Dashboard");
-    res.sendFile(path.join(__dirname, '..', "frontEnd", "index.html"));
+    res.sendFile(path.join(__dirname, "..", "frontEnd", "index.html"));
+});
+
+async function saveHistory(user_id, action) {
+    try {
+        const timestamp = new Date();
+        await db.query("INSERT INTO history (user_id, action, timestamp) VALUES ($1, $2, $3)", [user_id, action, timestamp]);
+    } catch (err) {
+        console.error("Failed to save history:", err);
+    }
+}
+
+app.post("/login", async (req, res) => {
+    const email = req.body.username;
+    const password = req.body.password;
+
+    if (!email || !password) {
+        return res.status(400).json({ error: "Username and password are required." });
+    }
+
+    try {
+        const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+
+        if (result.rows.length > 0) {
+            const user = result.rows[0];
+            const storedPassword = user.password;
+
+            if (password === storedPassword) {
+                req.session.user = { id: user.id, email: user.email };
+                await saveHistory(user.id, "Login");
+                res.json({ message: "Login successful" });
+            } else {
+                res.status(401).json({ error: "Incorrect Password" });
+            }
+        } else {
+            res.status(404).json({ error: "User not found" });
+        }
+    } catch (err) {
+        console.error("Error during login:", err);
+        res.status(500).json({ error: "Internal server error" });
+    }
 });
 
 app.post("/register", async (req, res) => {
@@ -123,36 +166,36 @@ app.post("/register", async (req, res) => {
     }
 });
 
-app.post("/login", async (req, res) => {
-    const email = req.body.username;
-    const password = req.body.password;
+// app.post("/login", async (req, res) => {
+//     const email = req.body.username;
+//     const password = req.body.password;
 
-    if (!email || !password) {
-        return res.status(400).json({ error: "Username and password are required." });
-    }
+//     if (!email || !password) {
+//         return res.status(400).json({ error: "Username and password are required." });
+//     }
 
-    try {
-        const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+//     try {
+//         const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
         
-        if (result.rows.length > 0) {
-            const user = result.rows[0];
-            const storedPassword = user.password;
+//         if (result.rows.length > 0) {
+//             const user = result.rows[0];
+//             const storedPassword = user.password;
 
-            if (password === storedPassword) {
-                req.session.user = { id: user.id, email: user.email }; // Simpan data user di sesi
-                await saveHistory(user.id, "Login");
-                res.json({ message: "Login successful" });
-            } else {
-                res.status(401).json({ error: "Incorrect Password" });
-            }
-        } else {
-            res.status(404).json({ error: "User not found" });
-        }
-    } catch (err) {
-        console.error("Error during login:", err);
-        res.status(500).json({ error: "Internal server error" });
-    }
-});
+//             if (password === storedPassword) {
+//                 req.session.user = { id: user.id, email: user.email }; // Simpan data user di sesi
+//                 await saveHistory(user.id, "Login");
+//                 res.json({ message: "Login successful" });
+//             } else {
+//                 res.status(401).json({ error: "Incorrect Password" });
+//             }
+//         } else {
+//             res.status(404).json({ error: "User not found" });
+//         }
+//     } catch (err) {
+//         console.error("Error during login:", err);
+//         res.status(500).json({ error: "Internal server error" });
+//     }
+// });
 
 app.get("/history", authenticateSession, async (req, res) => {
     try {
