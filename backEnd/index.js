@@ -16,6 +16,23 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
+const allowedOrigins = ['http://localhost:3000', 'https://virtual-tpb.vercel.app'];
+const corsOptions = {
+    origin: function(origin, callback) {
+        // Allow requests from specific origins or no origin (for non-browser requests like Postman)
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true,  // Allow cookies and credentials to be included
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type'],
+};
+
+app.use(cors(corsOptions));
+
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
