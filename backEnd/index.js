@@ -49,15 +49,15 @@ app.use(bodyParser.json());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true, // Ubah dari false ke true
     cookie: {
         maxAge: 60 * 60 * 1000,
-        secure: process.env.NODE_ENV === "production", // hanya aktif jika di produksi
-        sameSite: "lax" // mencegah pengiriman cookie silang
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax"
     }
 }));
 
-// Middleware untuk menghilangkan trailing slash
+
 app.use((req, res, next) => {
     if (req.path.endsWith('/') && req.path.length > 1) {
         const query = req.url.slice(req.path.length);
@@ -70,12 +70,14 @@ app.use((req, res, next) => {
 // Middleware untuk autentikasi sesi
 function authenticateSession(req, res, next) {
     if (req.session.user) {
+        console.log("User authenticated:", req.session.user);
         next();
     } else {
         console.log("User not authenticated, redirecting to /login");
         res.redirect("/login");
     }
 }
+
 
 app.get('/favicon.ico', (req, res) => res.status(204).end());
 
@@ -88,7 +90,11 @@ app.use(express.static(path.join(__dirname, "..", "frontEnd")));
 
 app.get("/login", (req, res) => {
     if (req.session.user) {
-        res.redirect("/dashboard");
+        if (req.path !== "/dashboard") {
+            res.redirect("/dashboard");
+        } else {
+            next();
+        }
     } else {
         console.log("Accessing /login page");
         res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "login.html"));
