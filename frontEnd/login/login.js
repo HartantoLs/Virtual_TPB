@@ -9,7 +9,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("https://virtual-tpb.vercel.app/login", {
+        const response = await fetch("http://localhost:3000/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

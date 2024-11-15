@@ -1,4 +1,4 @@
-body{
+body {
     background-color: #222831;
     border: 0;
     padding: 0;
@@ -10,14 +10,14 @@ body{
     font-family: 'Raleway';
 }
 
-h1{
+h1 {
     font-family: 'Raleway';
     letter-spacing: 30px;
     margin-bottom: 20px;
     color: #00ADB5;
 }
 
-.container{
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -30,11 +30,11 @@ h1{
     border-radius: 25px;
     animation: fadeIn 1.5s ease-in-out;
     flex: 1;
-    max-height:750px;
+    max-height: 750px;
     justify-content: center;
 }
 
-.card{
+.card {
     width: 50%;
     padding: 10px;
     margin-top: 20px;
@@ -44,19 +44,19 @@ h1{
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
-.card:hover{
+.card:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 20px rgba(0, 173, 181, 0.4);
 }
-.deskripsi{
+
+.deskripsi {
     color: #00ADB5;
     font-family: 'Raleway';
     letter-spacing: 5px;
     font-weight: 500;
 }
 
-
-.submit{
+.submit {
     margin-top: 30px;
     background-color: #00ADB5;
     border-radius: 100px;
@@ -65,16 +65,78 @@ h1{
     letter-spacing: 3px;
 }
 
-#pwText{
+#pwText {
     margin-top: 20px;
 }
 
-.submit:hover{
+.submit:hover {
     background-color: #00ADB5;
     opacity: 1;
     transform: translateY(-2);
 }
 
-.form-control{
-    border :#00ADB5 solid 1.5px;
+.form-control {
+    border: #00ADB5 solid 1.5px;
+}
+
+/* Media Queries for Responsiveness */
+
+/* For tablets and small devices */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 24px;  /* Smaller heading size for mobile/tablet */
+        letter-spacing: 10px;  /* Adjust letter spacing */
+    }
+
+    .container {
+        width: 100%;  /* Ensure the container fills the screen */
+        padding: 15px;  /* Reduce padding for smaller screens */
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .card {
+        width: 90%;  /* Adjust card width for smaller screens */
+        padding: 15px;  /* Increase padding for readability */
+    }
+
+    .submit {
+        padding: 12px 25px;  /* Slightly larger submit button for touch screens */
+    }
+
+    .form-control {
+        width: 100%;  /* Make form inputs take full width */
+    }
+
+    /* Reduce padding for mobile screens */
+    .card {
+        padding: 15px;
+    }
+}
+
+/* For small mobile devices */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 20px;  /* Smaller font size */
+        letter-spacing: 5px;
+    }
+
+    .container {
+        width: 95%;  /* Ensure container has a margin on small screens */
+        padding: 10px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    .card {
+        width: 95%;  /* Make card width responsive */
+    }
+
+    .submit {
+        width: 100%;  /* Make the submit button full width */
+    }
+
+    .form-control {
+        font-size: 14px;  /* Adjust font size for better readability */
+    }
 }
