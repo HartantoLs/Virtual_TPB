@@ -1,5 +1,5 @@
 export const CONFIG = {
-    BASE_URL: "https://virtual-tpb-f5cw.vercel.app/"
+    BASE_URL: "https://virtual-tpb.vercel.app/"
 };
 
 // Default export (ekspor objek yang sama sebagai default)
