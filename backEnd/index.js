@@ -16,22 +16,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
-const allowedOrigins = ['http://localhost:3000', 'https://virtual-tpb-zb9j.vercel.app/'];
-const corsOptions = {
-    origin: function(origin, callback) {
-        // Allow requests from specific origins or no origin (for non-browser requests like Postman)
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    credentials: true,  // Allow cookies and credentials to be included
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type'],
-};
 
-app.use(cors(corsOptions));
+app.use(cors({ origin: '*', credentials: true }));
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
@@ -105,7 +91,7 @@ app.use(express.static(path.join(__dirname, "..", "frontEnd")));
 app.get("/login", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "login.html"));
 });
-app.options('/login', cors(corsOptions)); 
+
 
 app.get("/register", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "frontEnd", "login", "register.html"));
