@@ -1,34 +1,42 @@
 import CONFIG from "./config.js";
-console.log("login.js berhasil dimuat"); 
+console.log("login.js berhasil dimuat");
+
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    console.log("Form submitted"); 
+    console.log("Form submitted");
     e.preventDefault();
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    
+
     try {
         const response = await fetch("https://virtual-tpb-f5cw.vercel.app/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            // credentials: "include", 
+            credentials: "include", // Ensure credentials are sent (e.g., cookies)
             body: JSON.stringify({
                 username,
                 password,
             }),
         });
 
+        // Check if response is OK (status code 2xx)
         if (response.ok) {
-            
             const data = await response.json();
-            // alert("Login successful");
-            // redirect to dashboard
+            console.log("Login successful", data);
+            // Redirect to dashboard upon successful login
             window.location.href = `${CONFIG.BASE_URL}/dashboard`;
         } else {
-            const error = await response.json();
-            alert(`Login failed: ${error.error}`);
+            // If response is not OK, handle it by showing the error
+            let errorMsg = 'Login failed. Please try again.';
+            try {
+                const error = await response.json();
+                errorMsg = error.error || errorMsg;
+            } catch (err) {
+                console.error("Error parsing response JSON:", err);
+            }
+            alert(errorMsg); // Show alert with error message
         }
     } catch (error) {
         console.error("Error:", error);
