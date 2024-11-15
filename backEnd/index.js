@@ -16,7 +16,7 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
-const allowedOrigins = ['http://localhost:3000', 'https://virtual-tpb.vercel.app'];
+const allowedOrigins = ['http://localhost:3000', 'https://virtual-tpb-zb9j.vercel.app/'];
 const corsOptions = {
     origin: function(origin, callback) {
         // Allow requests from specific origins or no origin (for non-browser requests like Postman)
