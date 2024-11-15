@@ -9,7 +9,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const password = document.getElementById("password").value;
 
     try {
-        const response = await fetch("https://virtual-tpb-f5cw.vercel.app/login", {
+        const response = await fetch("https://virtual-tpb.vercel.app/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -41,7 +41,7 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
             alert(errorMsg); // Show alert with error message
         }
     } catch (error) {
-        console.error("Error:", error);
+        // console.error("Error:", error);
         alert("An error occurred while logging in.");
     }
 });
